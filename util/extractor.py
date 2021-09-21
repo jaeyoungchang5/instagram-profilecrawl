@@ -428,6 +428,20 @@ def quick_post_extract(browser, num_of_posts_to_do):
 
     return post_infos, []
 
+def extract_basic_information(browser, username):
+    """Get all the information for the given username"""
+
+    InstaLogger.logger().info('Extracting information from ' + username)
+
+    try:
+        user_link = "https://www.instagram.com/{}/".format(username)
+        web_adress_navigator(browser, user_link)
+    except PageNotFound404 as e:
+        raise NoInstaProfilePageFound(e)
+
+    ig_user = InstagramUser(browser, username)
+    ig_user.get_user_info()
+    return ig_user
 
 def extract_information(browser, username, limit_amount):
     """Get all the information for the given username"""
